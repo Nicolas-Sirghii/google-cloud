@@ -1,0 +1,11 @@
+easyretain.online {
+
+    handle_path /api/* {
+        reverse_proxy backend-container:8000
+    }
+
+    handle {
+        reverse_proxy frontend-container:80
+    }
+
+}
