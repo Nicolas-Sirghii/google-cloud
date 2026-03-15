@@ -1,14 +1,11 @@
-# Use official Python image
 FROM python:3.12-slim
 
-# Set working directory
 WORKDIR /app
 
-# Copy backend code
-COPY main.py .
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
 
-# Install FastAPI + Uvicorn
-RUN pip install fastapi uvicorn
+COPY app ./app
+COPY .env .
 
-# Run Uvicorn server
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]

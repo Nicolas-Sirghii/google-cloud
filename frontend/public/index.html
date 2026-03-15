@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>EasyRetain Advanced</title>
+</head>
+<body>
+    <h1>EasyRetain Advanced App</h1>
+    <p>Message from database:</p>
+    <div id="db-message">Loading...</div>
+    <p>changed</p>
+    <script>
+        async function fetchMessage() {
+            try {
+                const res = await fetch("/api/message");
+                const data = await res.json();
+                document.getElementById("db-message").textContent = data.message;
+            } catch (err) {
+                document.getElementById("db-message").textContent = "Failed to load message.";
+                console.error(err);
+            }
+        }
+
+        fetchMessage();
+    </script>
+</body>
+</html>

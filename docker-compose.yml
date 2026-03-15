@@ -1,14 +1,37 @@
 version: "3.9"
+
 services:
-  frontend:
-    build: .
-    container_name: frontend
+  db:
+    image: mysql:8
+    container_name: db
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+    volumes:
+      - ./backend/mysql-init:/docker-entrypoint-initdb.d
     ports:
-      - "80:80"
-      - "443:443"
-    depends_on:
-      - backend
+      - "3306:3306"
 
   backend:
     build: ./backend
     container_name: backend
+    env_file:
+      - ./backend/.env
+    volumes:
+      - ./backend/app:/app/app     # live updates for backend
+      - ./backend/.env:/app/.env
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+
+  frontend:
+    build: ./frontend
+    container_name: frontend
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./frontend/public:/usr/share/caddy/public
+      - ./frontend/Caddyfile:/etc/caddy/Caddyfile
+    depends_on:
+      - backend

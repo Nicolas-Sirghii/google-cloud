@@ -1,0 +1,8 @@
+easyretain.online {
+    root * /usr/share/caddy/public
+    file_server
+
+    handle /api/* {
+        reverse_proxy backend:8000
+    }
+}
