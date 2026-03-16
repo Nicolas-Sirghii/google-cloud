@@ -1,4 +1,4 @@
-easyretain.online {
+easyretain.com {
     root * /usr/share/caddy/public
     file_server
 
